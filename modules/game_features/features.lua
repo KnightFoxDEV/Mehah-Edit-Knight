@@ -11,8 +11,10 @@ controller:registerEvents(g_game, {
 
         -- For Walk
         g_game.enableFeature(GameAllowPreWalk)
-        g_game.enableFeature(GameMapCache)
+       -- g_game.enableFeature(GameMapCache)
         -- g_game.enableFeature(GameSmoothWalkElevation)
+		--g_game.enableFeature(GameEffectU16)
+		--g_game.enableFeature(GameDistanceEffectU16)
 
         if version >= 750 then
             g_game.enableFeature(GameSoul)

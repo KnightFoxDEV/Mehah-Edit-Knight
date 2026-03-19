@@ -1964,8 +1964,10 @@ function testExtendedView(mode)
         gameBottomPanel:getChildById('rightResizeBorder'):setMaximum(gameBottomPanel:getWidth())
         gameBottomPanel:getChildById('bottomResizeBorder'):enable()
         gameBottomPanel:getChildById('rightResizeBorder'):enable()
-        gameMainRightPanel:setHeight(0)
-        gameMainRightPanel:setImageColor('alpha')
+        -- Mantém o gameMainRightPanel visível para que os ícones de skills/battle
+        -- permaneçam na mesma posição do modo 0 (painel direito), não no topmenu
+        -- gameMainRightPanel:setHeight(0)  -- NÃO esconder
+        -- gameMainRightPanel:setImageColor('alpha')  -- NÃO tornar transparente
         gameBottomPanel:addAnchor(AnchorTop, 'gameBottomActionPanel', AnchorBottom)
         gameBottomPanel:addAnchor(AnchorBottom, 'parent', AnchorBottom)
         gameLeftActionPanel:setImageSource(nil)
@@ -2016,8 +2018,12 @@ function testExtendedView(mode)
         modules.game_minimap.extendedView(extendedView)
         modules.game_healthinfo.extendedView(extendedView)
         modules.game_inventory.extendedView(extendedView)
-        modules.client_topmenu.extendedView(extendedView)
-        modules.game_mainpanel.toggleExtendedViewButtons(extendedView)
+        -- Sempre passa false para manter o topmenu escondido no modo 2 (igual ao modo 0).
+        -- Evita ícones duplicados e o topmenu aparecendo no estilo mobile.
+        modules.client_topmenu.extendedView(false)
+        -- Sempre passa false para não mover os botões (skills, battle, etc.) pro topmenu.
+        -- Isso garante que no modo 2 os ícones fiquem no painel direito (como no modo 0).
+        modules.game_mainpanel.toggleExtendedViewButtons(false)
     end)
 end
 
