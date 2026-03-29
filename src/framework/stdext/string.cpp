@@ -25,8 +25,9 @@
 #include "types.h"
 
 #include <charconv>
-#include <utf8cpp/utf8.h>
 #include <iterator>
+#include <utf8cpp/utf8.h>
+#include <vector>
 
 #ifdef _MSC_VER
 #pragma warning(disable:4267) // '?' : conversion from 'A' to 'B', possible loss of data
@@ -62,11 +63,15 @@ namespace stdext
         localtime_r(&tnow, &ts);
 #endif
 
-        char date[20];
-        if (std::strftime(date, sizeof(date), format, &ts) == 0)
-            throw string_error("Failed to format date-time string");
+        std::vector<char> date(64);
+        while (date.size() <= 1024) {
+            if (std::strftime(date.data(), date.size(), format, &ts) != 0)
+                return std::string(date.data());
 
-        return std::string(date);
+            date.resize(date.size() * 2);
+        }
+
+        throw string_error("Failed to format date-time string");
     }
 
     [[nodiscard]] std::string dec_to_hex(uint64_t num) {
