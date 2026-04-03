@@ -193,6 +193,7 @@ function consoleController:onInit()
         onReceiveExivaOptions = onReceiveExivaOptions,
         onChannelEvent = onChannelEvent
     })
+    local gameRootPanel = modules.game_interface.getRootPanel()
     gameBottomPanel = modules.game_interface.getBottomPanel()
     consolePanel = g_ui.loadUI('console', gameBottomPanel)
     consoleTextEdit = consolePanel:getChildById('consoleTextEdit')
@@ -239,18 +240,18 @@ function consoleController:onInit()
         return true
     end
 
-    g_keyboard.bindKeyPress('Shift+Up', function()
+    g_keyboard.bindKeyDown('Shift+Up', function()
         navigateMessageHistory(1)
-    end, consolePanel)
-    g_keyboard.bindKeyPress('Shift+Down', function()
+    end, gameRootPanel)
+    g_keyboard.bindKeyDown('Shift+Down', function()
         navigateMessageHistory(-1)
-    end, consolePanel)
+    end, gameRootPanel)
   
-    g_keyboard.bindKeyDown('Enter', switchChatOnCall, consolePanel)
-    g_keyboard.bindKeyDown('Escape', disableChatOnCall, consolePanel)
+    g_keyboard.bindKeyDown('Enter', switchChatOnCall, gameRootPanel)
+    g_keyboard.bindKeyDown('Escape', disableChatOnCall, gameRootPanel)
     g_keyboard.bindKeyPress('Ctrl+A', function()
         consoleTextEdit:clearText()
-    end, consolePanel)
+    end, gameRootPanel)
 
     -- apply buttom functions after loaded
     consoleTabBar:setNavigation(consolePanel:getChildById('prevChannelButton'),
@@ -281,7 +282,7 @@ function consoleController:onInit()
           type = KEY_DOWN,
           callback = sendCurrentMessage,
         }
-      }, consolePanel)
+      }, gameRootPanel)
     Keybind.new("Chat Channel", "Open Channel List", "Ctrl+O", "")
     Keybind.bind("Chat Channel", "Open Channel List", {
         {
@@ -466,6 +467,13 @@ end
 
 function consoleController:onTerminate()
     save()
+    local gameRootPanel = modules.game_interface.getRootPanel()
+    g_keyboard.unbindKeyPress('Shift+Up', gameRootPanel)
+    g_keyboard.unbindKeyPress('Shift+Down', gameRootPanel)
+    g_keyboard.unbindKeyDown('Enter', gameRootPanel)
+    g_keyboard.unbindKeyDown('Escape', gameRootPanel)
+    g_keyboard.unbindKeyPress('Ctrl+A', gameRootPanel)
+
     Keybind.delete("Chat Channel", "Close Current Channel")
     Keybind.delete("Chat Channel", "Next Channel")
     Keybind.delete("Chat Channel", "Previous Channel")
