@@ -94,7 +94,7 @@ Panel
     id: consoleContentPanel
     anchors.top: parent.top
     anchors.left: parent.left
-    anchors.right: parent.horizontalCenter
+    anchors.right: parent.right
     anchors.bottom: consoleTextEdit.top
     margin-left: 3
     margin-right: 2
@@ -109,6 +109,7 @@ Panel
     anchors.left: parent.horizontalCenter
     anchors.right: parent.right
     anchors.bottom: consoleTextEdit.top
+    visible: false
     margin-left: 2
     margin-right: 6
     margin-bottom: 4

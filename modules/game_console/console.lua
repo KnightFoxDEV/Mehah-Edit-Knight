@@ -2285,10 +2285,15 @@ function returnChat()
     end
     gameBottomPanel:getChildById('consolePanel'):setVisible(true)
     for _, child in pairs(gameBottomPanel:getChildById('consolePanel'):getChildren()) do
-        if child:getId() ~= "consoleTextEdit" then
-            child:setVisible(true)
-        else
+        local childId = child:getId()
+        if childId == "consoleTextEdit" then
             child:setVisible(not consoleToggleChat.isChecked)
+        elseif childId == "readOnlyPanel" then
+            child:setVisible(readOnlyModeEnabled)
+        elseif childId == "extendedViewHide" or childId == "extendedViewDraggable" then
+            -- keep current visibility for these specific buttons
+        else
+            child:setVisible(true)
         end
     end
     consoleTabBar:getCurrentTab().tabPanel:getChildById('consoleBuffer'):setImageSource(
