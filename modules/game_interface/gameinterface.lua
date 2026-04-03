@@ -206,7 +206,6 @@ function bindKeys()
         }
     }, gameRootPanel)
 
-    g_keyboard.bindKeyDown('Ctrl+.', nextViewMode, gameRootPanel)
 end
 
 function terminate()
@@ -283,7 +282,7 @@ function show()
     updateStretchShrink()
     logoutButton:setTooltip(tr('Logout'))
 
-    setupViewMode(0)
+    setupViewMode(2)
     if g_platform.isMobile() then
         mobileConfig.mobileWidthJoystick = modules.game_joystick.getPanel():getWidth()
         mobileConfig.mobileWidthShortcuts = modules.game_shortcuts.getPanel():getWidth()
@@ -1767,7 +1766,7 @@ function setupViewMode(mode)
             gameLeftPanel:setMarginBottom(mobileConfig.mobileHeightJoystick)
         end
     elseif mode == 1 then
-        gameMapPanel:setKeepAspectRatio(false)
+        gameMapPanel:setKeepAspectRatio(true)
         gameMapPanel:setLimitVisibleRange(true)
         gameMapPanel:setZoom(11)
         gameMapPanel:setVisibleDimension({
@@ -1781,7 +1780,8 @@ function setupViewMode(mode)
     elseif mode == 2 then
         local limit = limitedZoom and not g_game.isGM()
         gameMapPanel:setLimitVisibleRange(limit)
-        gameMapPanel:setZoom(11)
+        gameMapPanel:setKeepAspectRatio(false)
+        gameMapPanel:setZoom(14)
         gameMapPanel:setVisibleDimension({
             width = 15,
             height = 11

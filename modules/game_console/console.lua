@@ -259,6 +259,7 @@ function consoleController:onInit()
 
     -- tibia like hotkeys
     local gameRootPanel = modules.game_interface.getRootPanel()
+    g_keyboard.bindKeyDown('Shift+Enter', toggleExtendedViewHide, gameRootPanel)
     Keybind.new("Chat Channel", "Next Channel", "Tab", "")
     Keybind.bind("Chat Channel", "Next Channel", {
         {
@@ -363,6 +364,18 @@ end
 -- id of object first and then action
 function updateChatMode()
     switchChat(not consoleToggleChat.isChecked)
+end
+
+function toggleExtendedViewHide()
+    if isChatEnabled() then
+        return
+    end
+
+    local button = consolePanel:getChildById('extendedViewHide')
+    if button then
+        button:setChecked(not button:isChecked())
+        extendedViewHide(button:isChecked())
+    end
 end
 
 local function unbindMovingKeys()
