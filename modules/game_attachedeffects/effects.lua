@@ -72,14 +72,22 @@ AttachedEffectManager.register(5, 'Transform', 40, ThingCategoryCreature, {
     transform = true,
     duration = 5000,
     onAttach = function(effect, owner)
-        local e = Effect.create()
-        e:setId(7)
-        owner:getTile():addThing(e)
+        if not owner then return end
+        local tile = owner:getTile()
+        if tile then
+            local e = Effect.create()
+            e:setId(7)
+            tile:addThing(e)
+        end
     end,
     onDetach = function(effect, oldOwner)
-        local e = Effect.create()
-        e:setId(50)
-        oldOwner:getTile():addThing(e)
+        if not oldOwner then return end
+        local tile = oldOwner:getTile()
+        if tile then
+            local e = Effect.create()
+            e:setId(50)
+            tile:addThing(e)
+        end
     end
 })
 
@@ -90,7 +98,28 @@ AttachedEffectManager.register(6, 'Lake Monster', 34, ThingCategoryEffect, {
     onDetach = function(effect, oldOwner)
         local e = Effect.create()
         e:setId(54)
-        oldOwner:getTile():addThing(e)
+        if oldOwner then
+            local tile = oldOwner:getTile()
+            if tile then
+                tile:addThing(e)
+            end
+        end
+    end
+})
+
+AttachedEffectManager.register(23, 'Lake Monster', 209, ThingCategoryEffect, {
+    hideOwner = true,
+    duration = 1500,
+    -- loop = 1,
+    onDetach = function(effect, oldOwner)
+        local e = Effect.create()
+        e:setId(54)
+        if oldOwner then
+            local tile = oldOwner:getTile()
+            if tile then
+                tile:addThing(e)
+            end
+        end
     end
 })
 
@@ -137,7 +166,12 @@ AttachedEffectManager.register(10, 'Dynamic Effect', 0, 0, {
     onDetach = function(effect, oldOwner)
         local e = Effect.create()
         e:setId(50)
-        oldOwner:getTile():addThing(e)
+        if oldOwner then
+            local tile = oldOwner:getTile()
+            if tile then
+                tile:addThing(e)
+            end
+        end
     end
 })
 
@@ -145,4 +179,37 @@ AttachedEffectManager.register(11, 'Bat', 307, ThingCategoryCreature, {
     speed = 0.5,
     offset = { 0, 0 },
     bounce = { 20, 20, 2000 }
+})
+
+AttachedEffectManager.register(21, 'teste1', 414, ThingCategoryCreature, {
+    speed = 5,
+    disableWalkAnimation = false,
+    shader = 'Outfit - Rainbow',
+    followOwner = true,
+    dirOffset = {
+        [North] = { 0, -10, true },
+        [East] = { 5, -5 },
+        [South] = { -5, 0 },
+        [West] = { -10, -5, true }
+    },
+    onAttach = function(effect, owner)
+        owner:setBounce(0, 10, 5000)
+    end,
+    onDetach = function(effect, oldOwner)
+        oldOwner:setBounce(0, 0)
+    end
+})
+
+AttachedEffectManager.register(555, 'teste1', 1411, ThingCategoryCreature, {
+    speed = 5,
+    disableWalkAnimation = true,
+    
+    followOwner = true,
+	pulse = { 0, 50, 3000 },
+	offset = { -21, -31 },
+	light = {21},
+
+    onDetach = function(effect, oldOwner)
+        oldOwner:setBounce(0, 0)
+    end
 })

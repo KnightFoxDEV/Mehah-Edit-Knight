@@ -315,9 +315,14 @@ function create(player, outfitList, creatureMount, mountList, familiarList, wing
         destroy()
     end
 
-    if currentOutfit.shader == "" then
-        currentOutfit.shader = "Outfit - Default"
+    if currentOutfit.shaders == "" or not currentOutfit.shaders then
+        currentOutfit.shaders = "Outfit - Default"
     end
+
+    lastSelectAura = currentOutfit.auras or 0
+    lastSelectWings = currentOutfit.wings or 0
+    lastSelectEffects = currentOutfit.effects or 0
+    lastSelectShader = currentOutfit.shaders or "Outfit - Default"
 
     loadSettings()
     ServerData = {
@@ -615,10 +620,10 @@ function newPreset()
     settings.presets[presetId] = {
         title = "New Preset",
         outfit = outfitCopy,
-        aura = "None",
+        auras = "None",
         effects = 0,
         wings = "None",
-        shader = "None",
+        shaders = "None",
         mounted = window.configure.mount.check:isChecked(),
         familiar = "None"
     }
@@ -693,7 +698,6 @@ function savePreset()
     settings.presets[presetId].outfit = outfitCopy
     settings.presets[presetId].mounted = window.configure.mount.check:isChecked()
     settings.presets[presetId].familiar = tempOutfit.familiar or 0
-    settings.presets[presetId].shader = "Outfit - Default"
     settings.presets[presetId].auras = lastSelectAura or "None"
     settings.presets[presetId].effects = lastSelectEffects or 0
     settings.presets[presetId].wings = lastSelectWings or "None"
@@ -1513,6 +1517,10 @@ function updateAppearanceTexts(outfit)
         if key == "type" then
             newKey = "outfits"
             appKey = "outfit"
+        elseif key == "auras" then
+            appKey = "aura"
+        elseif key == "shaders" then
+            appKey = "shader"
         end
         local dataTable = ServerData[newKey]
         if dataTable then

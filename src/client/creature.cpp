@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) 2010-2026 OTClient <https://github.com/edubart/otclient>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -916,13 +916,6 @@ void Creature::setOutfit(const Outfit& outfit, bool fireEvent)
 
     if (m_outfit.hasMount()) {
         m_numPatternZ = std::min<int>(1, getNumPatternZ() - 1);
-    }
-
-    if ((g_game.getFeature(Otc::GameWingsAurasEffectsShader))) {
-        m_outfit.setWing(0);
-        m_outfit.setAura(0);
-        m_outfit.setEffect(0);
-        m_outfit.setShader("Outfit - Default");
     }
 
     if (const auto& tile = getTile())
